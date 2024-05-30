@@ -77,8 +77,8 @@ export class WeatherService {
         return 'sunny';
       case WeatherType.MainlyClear:
       case WeatherType.PartlyCloudy:
-        return 'partly_cloudy_day';
       case WeatherType.Overcast:
+        return 'partly_cloudy_day';
       case WeatherType.RainSlight:
       case WeatherType.RainModerate:
       case WeatherType.RainHeavy:
