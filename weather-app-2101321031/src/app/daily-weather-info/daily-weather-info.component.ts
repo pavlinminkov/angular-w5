@@ -6,12 +6,15 @@ import { LocationInfo } from '../shared/classes/location-info';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HourlyWeatherInfo } from '../shared/classes/horly-weather-info';
-import { LocationService } from '../shared/services/location.service';
 
 @Component({
   selector: 'app-daily-weather-info',
   standalone: true,
-  imports: [HourlyWeatherInfoComponent, CommonModule, HttpClientModule],
+  imports: [
+    HourlyWeatherInfoComponent,
+    CommonModule,
+    HttpClientModule,
+  ],
   providers: [WeatherService],
   templateUrl: './daily-weather-info.component.html',
   styleUrl: './daily-weather-info.component.css',

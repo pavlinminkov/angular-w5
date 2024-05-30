@@ -5,6 +5,8 @@ import { HourlyWeatherInfo } from '../classes/horly-weather-info';
 import { WeatherType } from '../enums/weather-type.enum';
 import { LocationInfo } from '../classes/location-info';
 import { DailyWeatherInfo } from '../classes/daily-weather-info';
+import { RainData } from '../classes/rain-data';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +55,18 @@ export class WeatherService {
           );
         }
         return dailyWeather;
+      })
+    );
+  }
+
+  public getRainData(location: LocationInfo): Observable<RainData> {
+    let dates = this.getPreviousMonthRange();
+    const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${location.latitude}&longitude=${location.longitude}&start_date=${dates.firstDay}&end_date=${dates.lastDay}&daily=precipitation_sum&timezone=auto`;
+
+    return this.http.get<any>(url).pipe(
+      map((response) => {
+        const daily = response.daily;
+        return new RainData(daily.time, daily.precipitation_sum);
       })
     );
   }
@@ -118,5 +132,35 @@ export class WeatherService {
     const weatherCode = dailyData.weather_code[i];
     const iconName = this.getIconName(weatherCode);
     return new DailyWeatherInfo(minTemp, maxTemp, location, date, iconName);
+  }
+
+  private getPreviousMonthRange(): { firstDay: string; lastDay: string } {
+    const now: Date = new Date();
+
+    const prevMonth: Date = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+    const firstDay: Date = new Date(
+      prevMonth.getFullYear(),
+      prevMonth.getMonth(),
+      1
+    );
+
+    const lastDay: Date = new Date(
+      prevMonth.getFullYear(),
+      prevMonth.getMonth() + 1,
+      0
+    );
+
+    return {
+      firstDay: this.formatDate(firstDay),
+      lastDay: this.formatDate(lastDay),
+    };
+  }
+
+  private formatDate(date: Date) {
+    const year: number = date.getFullYear();
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const day: string = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

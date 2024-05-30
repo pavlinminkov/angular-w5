@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { DailyWeatherInfoComponent } from '../daily-weather-info/daily-weather-info.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,22 +8,23 @@ import { WeatherService } from '../shared/services/weather.service';
 import { LocationService } from '../shared/services/location.service';
 import { LocationInfo } from '../shared/classes/location-info';
 import { DailyWeatherInfo } from '../shared/classes/daily-weather-info';
-import { DailyWeatherListComponent } from "../daily-weather-list/daily-weather-list.component";
+import { DailyWeatherListComponent } from '../daily-weather-list/daily-weather-list.component';
 
 @Component({
-    selector: 'app-weather-container',
-    standalone: true,
-    providers: [WeatherService, LocationService],
-    templateUrl: './weather-container.component.html',
-    styleUrl: './weather-container.component.css',
-    imports: [
-        RouterOutlet,
-        DailyWeatherInfoComponent,
-        FormsModule,
-        HttpClientModule,
-        CommonModule,
-        DailyWeatherListComponent
-    ]
+  selector: 'app-weather-container',
+  standalone: true,
+  providers: [WeatherService, LocationService],
+  templateUrl: './weather-container.component.html',
+  styleUrl: './weather-container.component.css',
+  imports: [
+    RouterOutlet,
+    DailyWeatherInfoComponent,
+    FormsModule,
+    HttpClientModule,
+    CommonModule,
+    RouterModule,
+    DailyWeatherListComponent,
+  ],
 })
 export class WeatherContainerComponent {
   public cityName?: string;
@@ -38,7 +39,8 @@ export class WeatherContainerComponent {
 
   constructor(
     private weatherService: WeatherService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,5 +76,17 @@ export class WeatherContainerComponent {
 
   public returnToList() {
     this.selectedIndex = -1;
+  }
+
+  public redirectToRainChart() {
+    let location = this.dailyWeatherInfoList[0].location;
+    this.router.navigate(['/rain-chart'], {
+      queryParams: {
+        name: location.name,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        country_code: location.country_code,
+      },
+    });
   }
 }
