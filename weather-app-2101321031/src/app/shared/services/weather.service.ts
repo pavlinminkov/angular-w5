@@ -85,6 +85,7 @@ export class WeatherService {
       case WeatherType.RainShowersSlight:
       case WeatherType.RainShowersModerate:
       case WeatherType.RainShowersViolent:
+      case WeatherType.DrizzleModerate:
         return 'rainy';
       case WeatherType.Fog:
       case WeatherType.DepostingRimeFog:
