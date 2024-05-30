@@ -1,0 +1,13 @@
+@if(hourlyWeatherInfo) {
+  <div class="flex flex-col items-center">
+    <span class="font-semibold text-lg"
+      >{{ hourlyWeatherInfo.temperature }}°C</span
+    >
+    <span class="material-symbols-outlined">{{
+      hourlyWeatherInfo.iconName
+    }}</span>
+    <span class="font-semibold mt-1 text-sm text-gray-500">
+      {{ hourlyWeatherInfo.time.getHours() }}:00</span
+    >
+  </div>
+}

@@ -1,0 +1,28 @@
+<div class="flex justify-between">
+  <div class="flex flex-col">
+    <span>
+      <span class="text-6xl text-red-900 font-bold"
+        >{{ dailyWeatherInfo.maxTemperature }}°C</span
+      >
+      <span class="text-6xl"> - </span>
+      <span class="text-6xl text-blue-900 font-bold"
+        >{{ dailyWeatherInfo.minTemperature }}°C</span
+      >
+    </span>
+    <span class="font-semibold mt-1 text-gray-500"
+      >{{ dailyWeatherInfo.location.name }},
+      {{ dailyWeatherInfo.location.country_code }}</span
+    >
+    <span class="font-semibold mt-1 text-gray-500">{{
+      dailyWeatherInfo.date.toDateString()
+    }}</span>
+  </div>
+  <span class="material-symbols-outlined text-7xl">
+    {{ dailyWeatherInfo.iconName }}
+  </span>
+</div>
+<div class="flex flex-wrap justify-between mt-12">
+  @for (item of hourlyWeatherInfoList; track item) {
+    <app-hourly-weather-info class="mr-2 ml-2" [hourlyWeatherInfo]="item"></app-hourly-weather-info>
+  }
+</div>

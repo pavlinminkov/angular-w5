@@ -1,0 +1,17 @@
+<p class="text-bold text-3xl mb-3">
+  {{ dailyWeatherInfoList[0].location.name }},
+  {{ dailyWeatherInfoList[0].location.country_code }}
+</p>
+@for(item of dailyWeatherInfoList; track item;) {
+<div class="flex justify-between items-center" (click)="handleSelection($index)">
+  <span class="font-semibold text-lg w-1/4">{{
+    item.date.toLocaleDateString()
+  }}</span>
+  <span class="material-symbols-outlined text-4xl">{{ item.iconName }}</span>
+  <span class="font-semibold text-lg w-1/4 text-right">
+    <span class="text-blue-900 text-2xl">{{ item.minTemperature }}°</span>
+    <span> / </span>
+    <span class="text-red-900 text-2xl">{{ item.maxTemperature }}°</span>
+  </span>
+</div>
+}
